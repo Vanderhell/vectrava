@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_SIZE_ADD_CHECKED_U32_H
-#define PRIMITIVECORE_SIZE_ADD_CHECKED_U32_H
+#ifndef PC_SIZE_ADD_CHECKED_U32_H
+#define PC_SIZE_ADD_CHECKED_U32_H
 
 #include <stdbool.h>
 #include <stdint.h>

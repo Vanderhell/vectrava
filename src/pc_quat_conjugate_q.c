@@ -1,9 +1,9 @@
-﻿#include "pc_quat_conjugate_q.h"
+#include "pc_quat_conjugate_q.h"
 
 #include <limits.h>
 #include <stddef.h>
 
-bool rm_quat_conjugate_q(const int32_t input_q1_30[4], int32_t output_q1_30[4])
+bool pc_quat_conjugate_q(const int32_t input_q1_30[4], int32_t output_q1_30[4])
 {
     int32_t result[4];
     unsigned i;

@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_PC_SPHERE_AABB_OVERLAP_I32_H
-#define PRIMITIVECORE_PC_SPHERE_AABB_OVERLAP_I32_H
+#ifndef PC_PC_SPHERE_AABB_OVERLAP_I32_H
+#define PC_PC_SPHERE_AABB_OVERLAP_I32_H
 #include <stdbool.h>
 #include <stdint.h>
 /* Closed sphere/AABB overlap; any inverted box axis returns false. */

@@ -1,9 +1,9 @@
-﻿#include "pc_matrix2_transpose_q.h"
+#include "pc_matrix2_transpose_q.h"
 #include <stddef.h>
 
-bool rm_matrix2_transpose_q(const rm_matrix2_q *input, rm_matrix2_q *result)
+bool pc_matrix2_transpose_q(const pc_matrix2_q *input, pc_matrix2_q *result)
 {
-    rm_matrix2_q temporary;
+    pc_matrix2_q temporary;
     if (input == NULL || result == NULL) return false;
     temporary.element[0] = input->element[0];
     temporary.element[1] = input->element[2];

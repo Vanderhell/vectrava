@@ -1,4 +1,4 @@
-﻿#include "pc_vector_rotate2_q.h"
+#include "pc_vector_rotate2_q.h"
 #include <stddef.h>
 
 static const int64_t atan_turns_q31[30] = {
@@ -32,7 +32,7 @@ static int16_t saturate_i16(int64_t value)
     return (int16_t)value;
 }
 
-bool rm_vector_rotate2_q(const int16_t input_q15[2], uint32_t angle_turns_q0_32, int16_t output_q15[2])
+bool pc_vector_rotate2_q(const int16_t input_q15[2], uint32_t angle_turns_q0_32, int16_t output_q15[2])
 {
     int64_t x, y, z, x_next, y_next;
     int64_t result_x, result_y;

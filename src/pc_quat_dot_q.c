@@ -1,11 +1,11 @@
-﻿#include "pc_quat_dot_q.h"
+#include "pc_quat_dot_q.h"
 
 #include <limits.h>
 #include <stddef.h>
 
 #define Q30_ONE INT32_C(1073741824)
 
-bool rm_quat_dot_q(const int32_t a[4], const int32_t b[4], int32_t *dot_q1_30)
+bool pc_quat_dot_q(const int32_t a[4], const int32_t b[4], int32_t *dot_q1_30)
 {
     int64_t sum = 0;
     uint64_t magnitude;

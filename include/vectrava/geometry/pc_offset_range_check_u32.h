@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_OFFSET_RANGE_CHECK_U32_H
-#define PRIMITIVECORE_OFFSET_RANGE_CHECK_U32_H
+#ifndef PC_OFFSET_RANGE_CHECK_U32_H
+#define PC_OFFSET_RANGE_CHECK_U32_H
 
 #include <stdbool.h>
 #include <stdint.h>

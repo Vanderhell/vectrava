@@ -1,4 +1,4 @@
-﻿#include "pc_quat_mul_q.h"
+#include "pc_quat_mul_q.h"
 
 #include <limits.h>
 #include <stddef.h>
@@ -15,7 +15,7 @@ static int64_t round_shift_q30(int64_t value)
     return value < 0 ? -(int64_t)quotient : (int64_t)quotient;
 }
 
-bool rm_quat_mul_q(const int32_t a[4], const int32_t b[4], int32_t output[4])
+bool pc_quat_mul_q(const int32_t a[4], const int32_t b[4], int32_t output[4])
 {
     int64_t aw, ax, ay, az, bw, bx, by, bz;
     int64_t sums[4];

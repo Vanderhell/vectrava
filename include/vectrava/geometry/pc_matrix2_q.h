@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_GEOMETRY_MATRICES_PC_MATRIX2_Q_H
-#define PRIMITIVECORE_GEOMETRY_MATRICES_PC_MATRIX2_Q_H
+#ifndef PC_GEOMETRY_MATRICES_PC_MATRIX2_Q_H
+#define PC_GEOMETRY_MATRICES_PC_MATRIX2_Q_H
 
 #include <stdint.h>
 
@@ -7,6 +7,6 @@
 typedef struct { int32_t element[4]; } pc_matrix2_q;
 
 /* Implementation-facing spelling retained inside the migrated C modules. */
-typedef pc_matrix2_q rm_matrix2_q;
+typedef pc_matrix2_q pc_matrix2_q;
 
 #endif

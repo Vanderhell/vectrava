@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_QUAT_NORM2_Q_H
-#define PRIMITIVECORE_QUAT_NORM2_Q_H
+#ifndef PC_QUAT_NORM2_Q_H
+#define PC_QUAT_NORM2_Q_H
 
 #include <stdbool.h>
 #include <stdint.h>

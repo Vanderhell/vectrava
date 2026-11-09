@@ -1,8 +1,8 @@
-﻿#include "pc_quat_identity_q.h"
+#include "pc_quat_identity_q.h"
 
 #include <stddef.h>
 
-bool rm_quat_identity_q(int32_t out_q1_30[4])
+bool pc_quat_identity_q(int32_t out_q1_30[4])
 {
     if (out_q1_30 == NULL) return false;
     out_q1_30[0] = INT32_C(1073741824);

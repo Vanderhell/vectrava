@@ -1,8 +1,8 @@
-﻿#include "pc_checked_add_i64.h"
+#include "pc_checked_add_i64.h"
 #include <limits.h>
 #include <stddef.h>
 
-bool rm_checked_add_i64(int64_t a, int64_t b, int64_t *result)
+bool pc_checked_add_i64(int64_t a, int64_t b, int64_t *result)
 {
     if (result == NULL) return false;
     if ((b > 0 && a > INT64_MAX - b) ||

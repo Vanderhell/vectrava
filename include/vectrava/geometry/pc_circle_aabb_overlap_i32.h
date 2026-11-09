@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_PC_CIRCLE_AABB_OVERLAP_I32_H
-#define PRIMITIVECORE_PC_CIRCLE_AABB_OVERLAP_I32_H
+#ifndef PC_PC_CIRCLE_AABB_OVERLAP_I32_H
+#define PC_PC_CIRCLE_AABB_OVERLAP_I32_H
 #include <stdbool.h>
 #include <stdint.h>
 /* Closed circle/AABB overlap; inverted box bounds return false. */

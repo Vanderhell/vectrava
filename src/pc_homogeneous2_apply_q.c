@@ -1,4 +1,4 @@
-﻿#include "pc_homogeneous2_apply_q.h"
+#include "pc_homogeneous2_apply_q.h"
 #include "pc_checked_add_i64.h"
 #include <limits.h>
 #include <stddef.h>
@@ -15,7 +15,7 @@ static int64_t rne_i64(int64_t value, unsigned f)
     return -(int64_t)q;
 }
 
-bool rm_homogeneous2_apply_q(const int32_t matrix[9], const int32_t vector[3],
+bool pc_homogeneous2_apply_q(const int32_t matrix[9], const int32_t vector[3],
                              unsigned fractional_bits, int32_t output[3])
 {
     int32_t m[9], v[3], result[3];
@@ -27,7 +27,7 @@ bool rm_homogeneous2_apply_q(const int32_t matrix[9], const int32_t vector[3],
         int64_t sum = 0;
         for (j = 0u; j < 3u; ++j) {
             const int64_t product = (int64_t)m[3u*i+j] * v[j];
-            if (!rm_checked_add_i64(sum, product, &sum)) return false;
+            if (!pc_checked_add_i64(sum, product, &sum)) return false;
         }
         {
             const int64_t rounded = rne_i64(sum, fractional_bits);

@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_PC_DISTANCE_TO_STOP_Q_H
-#define PRIMITIVECORE_PC_DISTANCE_TO_STOP_Q_H
+#ifndef PC_PC_DISTANCE_TO_STOP_Q_H
+#define PC_PC_DISTANCE_TO_STOP_Q_H
 #include <stdbool.h>
 #include <stdint.h>
 /* Constant-deceleration stopping distance: ceil(|v|^2/(2*a)). Velocity is

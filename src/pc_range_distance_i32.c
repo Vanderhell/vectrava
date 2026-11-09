@@ -1,7 +1,7 @@
-﻿#include "pc_range_distance_i32.h"
+#include "pc_range_distance_i32.h"
 #include <stddef.h>
 
-bool rm_range_distance_i32(int32_t value, int32_t lower, int32_t upper,
+bool pc_range_distance_i32(int32_t value, int32_t lower, int32_t upper,
                            uint32_t *distance)
 {
     uint32_t delta;

@@ -1,4 +1,4 @@
-﻿#include "pc_affine2_apply_q.h"
+#include "pc_affine2_apply_q.h"
 #include "pc_checked_add_i64.h"
 #include <limits.h>
 #include <stddef.h>
@@ -16,7 +16,7 @@ static int64_t round_i64_rne(int64_t value, unsigned fractional_bits)
     return -(int64_t)quotient;
 }
 
-bool rm_affine2_apply_q(const rm_matrix2_q *matrix, const int32_t point[2],
+bool pc_affine2_apply_q(const pc_matrix2_q *matrix, const int32_t point[2],
                         const int32_t translation[2], unsigned fractional_bits,
                         int32_t output[2])
 {
@@ -32,8 +32,8 @@ bool rm_affine2_apply_q(const rm_matrix2_q *matrix, const int32_t point[2],
         int64_t dot, translated;
         /* If the dot sum exceeds int64, its magnitude is >=2^63. At f<=31,
          * rounding and adding any int32 translation cannot yield int32. */
-        if (!rm_checked_add_i64(p0, p1, &dot)) return false;
-        if (!rm_checked_add_i64(round_i64_rne(dot, fractional_bits), t[i], &translated) ||
+        if (!pc_checked_add_i64(p0, p1, &dot)) return false;
+        if (!pc_checked_add_i64(round_i64_rne(dot, fractional_bits), t[i], &translated) ||
             translated < INT32_MIN || translated > INT32_MAX) return false;
         result[i] = (int32_t)translated;
     }

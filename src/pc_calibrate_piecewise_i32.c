@@ -1,4 +1,4 @@
-﻿#include "pc_calibrate_piecewise_i32.h"
+#include "pc_calibrate_piecewise_i32.h"
 #include <stddef.h>
 #include <stdint.h>
 
@@ -8,8 +8,8 @@ static uint64_t magnitude_delta(int32_t a, int32_t b)
     return (uint64_t)((uint32_t)a - (uint32_t)b);
 }
 
-static int32_t interpolate(const rm_calibration_point_i32 *left,
-                           const rm_calibration_point_i32 *right,
+static int32_t interpolate(const pc_calibration_point_i32 *left,
+                           const pc_calibration_point_i32 *right,
                            int32_t input)
 {
     uint64_t dx = magnitude_delta(left->input, right->input);
@@ -32,7 +32,7 @@ static int32_t interpolate(const rm_calibration_point_i32 *left,
     return (int32_t)base;
 }
 
-bool rm_calibrate_piecewise_i32(const rm_calibration_point_i32 *points,
+bool pc_calibrate_piecewise_i32(const pc_calibration_point_i32 *points,
                                  uint8_t count, int32_t input, int32_t *output)
 {
     uint16_t i;

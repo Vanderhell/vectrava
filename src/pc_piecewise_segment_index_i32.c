@@ -1,7 +1,7 @@
-﻿#include "pc_piecewise_segment_index_i32.h"
+#include "pc_piecewise_segment_index_i32.h"
 #include <stddef.h>
 
-bool rm_piecewise_segment_index_i32(const rm_calibration_point_i32 *points,
+bool pc_piecewise_segment_index_i32(const pc_calibration_point_i32 *points,
                                     uint8_t count, int32_t input,
                                     uint8_t *segment_index)
 {

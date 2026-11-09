@@ -1,7 +1,7 @@
-﻿#include "pc_vector_cross3_i32.h"
+#include "pc_vector_cross3_i32.h"
 #include <stddef.h>
 
-bool rm_vector_cross3_i32(const int32_t a[3], const int32_t b[3], int64_t out[3])
+bool pc_vector_cross3_i32(const int32_t a[3], const int32_t b[3], int64_t out[3])
 {
     int64_t result[3];
     unsigned i;

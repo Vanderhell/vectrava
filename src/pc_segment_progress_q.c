@@ -1,7 +1,7 @@
-﻿#include "pc_segment_progress_q.h"
+#include "pc_segment_progress_q.h"
 #include <stddef.h>
 
-bool rm_segment_progress_q(int16_t ax, int16_t ay, int16_t bx, int16_t by,
+bool pc_segment_progress_q(int16_t ax, int16_t ay, int16_t bx, int16_t by,
                            int16_t px, int16_t py, uint32_t *out)
 {
     const int64_t dx = (int32_t)bx - (int32_t)ax;

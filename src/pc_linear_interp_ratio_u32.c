@@ -1,7 +1,7 @@
-﻿#include "pc_linear_interp_ratio_u32.h"
+#include "pc_linear_interp_ratio_u32.h"
 #include <stddef.h>
 
-bool rm_linear_interp_ratio_u32(uint32_t a, uint32_t b, uint32_t numerator,
+bool pc_linear_interp_ratio_u32(uint32_t a, uint32_t b, uint32_t numerator,
                                 uint32_t denominator, uint32_t *result)
 {
     uint64_t magnitude, product, q, rem;

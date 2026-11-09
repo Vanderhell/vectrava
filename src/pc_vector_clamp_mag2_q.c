@@ -1,4 +1,4 @@
-﻿#include "pc_vector_clamp_mag2_q.h"
+#include "pc_vector_clamp_mag2_q.h"
 #include <stddef.h>
 
 static uint64_t isqrt_u64(uint64_t value)
@@ -13,7 +13,7 @@ static uint64_t isqrt_u64(uint64_t value)
     return result;
 }
 
-bool rm_vector_clamp_mag2_q(const int16_t input_q15[2], int16_t max_magnitude_q15, int16_t output_q15[2])
+bool pc_vector_clamp_mag2_q(const int16_t input_q15[2], int16_t max_magnitude_q15, int16_t output_q15[2])
 {
     const int32_t x = input_q15 == NULL ? 0 : input_q15[0];
     const int32_t y = input_q15 == NULL ? 0 : input_q15[1];

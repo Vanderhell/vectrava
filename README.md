@@ -3,8 +3,7 @@
 Vectrava is a portable C99 geometry library for vectors, ranges, transforms,
 quaternions, bounding volumes and deterministic spatial calculations.
 
-The first extraction contains 45 public functions from the PrimitiveCore
-`geometry/vectors_shapes_and_intersections` family. APIs retain the validated
+The package contains 45 public functions for vectors, shapes and intersections. APIs retain the validated
 `pc_` symbols and use explicit fixed-width representations. No heap or OS
 service is required.
 

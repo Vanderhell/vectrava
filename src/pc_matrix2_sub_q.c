@@ -1,10 +1,10 @@
-﻿#include "pc_matrix2_sub_q.h"
+#include "pc_matrix2_sub_q.h"
 #include <stddef.h>
 
-bool rm_matrix2_sub_q(const rm_matrix2_q *a, const rm_matrix2_q *b,
-                      rm_matrix2_q *result)
+bool pc_matrix2_sub_q(const pc_matrix2_q *a, const pc_matrix2_q *b,
+                      pc_matrix2_q *result)
 {
-    rm_matrix2_q temporary;
+    pc_matrix2_q temporary;
     size_t i;
     if (a == NULL || b == NULL || result == NULL) return false;
     for (i = 0u; i < 4u; ++i) {

@@ -1,5 +1,5 @@
-﻿#ifndef PRIMITIVECORE_PC_HASH_PROBE_LINEAR_U32_H
-#define PRIMITIVECORE_PC_HASH_PROBE_LINEAR_U32_H
+#ifndef PC_PC_HASH_PROBE_LINEAR_U32_H
+#define PC_PC_HASH_PROBE_LINEAR_U32_H
 #include <stdbool.h>
 #include <stdint.h>
 

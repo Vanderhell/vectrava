@@ -1,8 +1,8 @@
-﻿#include "pc_translate_point2_i32.h"
+#include "pc_translate_point2_i32.h"
 #include <limits.h>
 #include <stddef.h>
 
-bool rm_translate_point2_i32(int32_t x, int32_t y, int32_t dx, int32_t dy,
+bool pc_translate_point2_i32(int32_t x, int32_t y, int32_t dx, int32_t dy,
                              int32_t *out_x, int32_t *out_y)
 {
     const int64_t nx = (int64_t)x + (int64_t)dx;

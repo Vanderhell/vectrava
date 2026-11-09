@@ -1,4 +1,4 @@
-﻿#include "pc_quat_normalize_q.h"
+#include "pc_quat_normalize_q.h"
 
 #include <stddef.h>
 
@@ -38,7 +38,7 @@ static int64_t divide_round_nearest_even(uint64_t numerator, uint64_t denominato
     return (int64_t)quotient;
 }
 
-bool rm_quat_normalize_q(const int32_t input_q1_30[4], int32_t output_q1_30[4])
+bool pc_quat_normalize_q(const int32_t input_q1_30[4], int32_t output_q1_30[4])
 {
     uint64_t maximum = 0u;
     int64_t scaled[4];

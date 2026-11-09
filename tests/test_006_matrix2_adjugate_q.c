@@ -1,6 +1,7 @@
 ﻿#include "pc_matrix2_adjugate_q.h"
 #include "pc_checked_neg_i64.h"
 #include <limits.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #define CHECK(c) do { if (!(c)) return __LINE__; } while (0)
@@ -23,7 +24,7 @@ static int oracle_adjugate(const pc_matrix2_q *input, pc_matrix2_q *output)
     const int64_t raw[4] = {input->element[3], -(int64_t)input->element[1],
                             -(int64_t)input->element[2], input->element[0]};
     pc_matrix2_q tmp;
-    size_t i;
+    unsigned i;
     for (i = 0u; i < 4u; ++i) {
         if (raw[i] < INT32_MIN || raw[i] > INT32_MAX) return 0;
         tmp.element[i] = (int32_t)raw[i];
@@ -34,7 +35,7 @@ static int oracle_adjugate(const pc_matrix2_q *input, pc_matrix2_q *output)
 
 static int equal(const pc_matrix2_q *a, const pc_matrix2_q *b)
 {
-    size_t i;
+    unsigned i;
     for (i = 0u; i < 4u; ++i) if (a->element[i] != b->element[i]) return 0;
     return 1;
 }
@@ -45,7 +46,7 @@ int main(void)
     uint32_t seed = UINT32_C(0x526AD6), iteration;
     const int32_t edges[] = {INT32_MIN, INT32_MIN + 1, -1, 0, 1,
                              INT32_MAX - 1, INT32_MAX};
-    size_t a, b, c, d;
+    unsigned a, b, c, d;
 
     actual = expected;
     CHECK(!pc_matrix2_adjugate_q(NULL, &actual) && equal(&actual, &expected));
@@ -80,7 +81,7 @@ int main(void)
                 }
     for (iteration = 0u; iteration < 250000u; ++iteration) {
         const pc_matrix2_q sentinel = {{11, 22, 33, 44}};
-        size_t k;
+        unsigned k;
         int valid;
         for (k = 0u; k < 4u; ++k) input.element[k] = as_i32(next_u32(&seed));
         actual = sentinel;

@@ -36,7 +36,8 @@ The CMake test option is VECTRAVA_BUILD_TESTS. The library has no mandatory thir
 Read the individual public header before use. It defines widths, representation, valid ranges, rounding, overflow/saturation/wrap behavior, invalid-input handling and whether output is left unchanged on failure. APIs are stateless unless a caller-owned state object is explicitly present.
 
 ## Testing and validation
-32/32 enabled host tests passed; three MSVC __int128 oracle sources are excluded.
+32/32 MSVC tests and 35/35 GCC strict-warning tests passed; three __int128
+oracle sources are excluded only from MSVC.
 See docs/TESTING.md for reproducible commands, coverage boundaries and hardware status.
 
 ## Resource status

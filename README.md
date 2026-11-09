@@ -1,21 +1,55 @@
 # Vectrava
 
-Vectrava is a portable C99 geometry library for vectors, ranges, transforms,
-quaternions, bounding volumes and deterministic spatial calculations.
+Vectors, ranges, transforms, quaternions, bounding volumes and spatial calculations.
 
-The package contains 45 public functions for vectors, shapes and intersections. APIs retain the validated
-`pc_` symbols and use explicit fixed-width representations. No heap or OS
-service is required.
+## Overview
+**Geometry and transforms.** Vectors, ranges, transforms, quaternions, bounding volumes and spatial calculations.
 
+## Engineering problem
+Embedded robotics and motion code needs fixed-point geometry with explicit bounds and no heap.
+
+## Features
+- Portable C99-oriented implementation.
+- Deterministic integer or fixed-point behavior documented at function level.
+- No mandatory heap, threads or operating-system services.
+- Separate translation units for selective linking.
+
+## Architecture
+The public surface consists of 54 headers and 54 callable API entries under include/. Implementations are in src/ and tests are in tests/. State, buffers and output ownership are explicit in each header contract.
+
+## Public API
+The complete symbol-by-symbol reference is in docs/API_REFERENCE.md. It lists every public header, callable symbol, include path and available contract comment.
+
+## Integration
 ```sh
 cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON
-cmake --build build --config Release
-ctest --test-dir build --output-on-failure -C Release
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
 ```
 
-Host validation is the current gate. ESP32-S3 hardware and isolated footprint
-measurements are pending.
+For minimal firmware, include only the required header and compile the corresponding source translation unit. No collection-wide dependency is required.
 
-The name combines *vector* and *trahere* (to draw/transform), describing the
-library's focus on directed geometric transformation. Apache License 2.0,
-copyright Vanderhell; see `LICENSE` and `NOTICE`.
+## Configuration and dependencies
+The CMake test option is VECTRAVA_BUILD_TESTS. The library has no mandatory third-party dependency. Platform-specific link requirements are documented in CMake and the affected API header.
+
+## Numeric and safety contracts
+Read the individual public header before use. It defines widths, representation, valid ranges, rounding, overflow/saturation/wrap behavior, invalid-input handling and whether output is left unchanged on failure. APIs are stateless unless a caller-owned state object is explicitly present.
+
+## Testing and validation
+32/32 enabled host tests passed; three MSVC __int128 oracle sources are excluded.
+See docs/TESTING.md for reproducible commands, coverage boundaries and hardware status.
+
+## Resource status
+Embedded flash, RAM, stack and cycle measurements are reported only when measured for this product and configuration. Unmeasured values are marked PENDING; host measurements are not MCU measurements.
+
+## Hardware status
+Hardware validation is reported in docs/TESTING.md. HW NOT VERIFIED is used where no reproducible target run is available.
+
+## Limitations
+Preserved tests outside this product boundary are not silently treated as product coverage. Unsupported ranges and invalid inputs are defined by the public headers.
+
+## Versioning and license
+Version 0.1.0. Public API compatibility is maintained within the 0.x series as documented changes are introduced. Apache License 2.0, copyright Vanderhell; see LICENSE and NOTICE.
+
+## Origin
+This repository is a self-contained product library. Historical provenance is maintained in the central catalog, while this repository documents the usable public API and its behavior.

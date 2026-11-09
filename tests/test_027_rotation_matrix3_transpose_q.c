@@ -1,0 +1,7 @@
+﻿#include "pc_rotation_matrix3_transpose_q.h"
+#include <limits.h>
+#include <stddef.h>
+#include <stdint.h>
+#define CHECK(c) do{if(!(c))return __LINE__;}while(0)
+static int equal(const pc_matrix3_q*a,const pc_matrix3_q*b){for(unsigned i=0;i<9;i++)if(a->element[i]!=b->element[i])return 0;return 1;}
+int main(void){pc_matrix3_q m={{INT32_MIN,-1,0,1,INT32_MAX,2,3,4,-5}},original=m,expected={{INT32_MIN,1,3,-1,INT32_MAX,4,0,2,-5}},out;CHECK(pc_rotation_matrix3_transpose_q(&m,&out));CHECK(equal(&out,&expected));CHECK(pc_rotation_matrix3_transpose_q(&out,&out));CHECK(equal(&out,&original));CHECK(!pc_rotation_matrix3_transpose_q(NULL,&out));CHECK(equal(&out,&original));CHECK(!pc_rotation_matrix3_transpose_q(&m,NULL));uint32_t state=1397;for(unsigned i=0;i<10000;i++){for(unsigned j=0;j<9;j++){state=state*1664525u+1013904223u;m.element[j]=(int32_t)state;}CHECK(pc_rotation_matrix3_transpose_q(&m,&out));for(unsigned r=0;r<3;r++)for(unsigned c=0;c<3;c++)CHECK(out.element[3*r+c]==m.element[3*c+r]);CHECK(pc_rotation_matrix3_transpose_q(&out,&out));CHECK(equal(&out,&m));}for(unsigned code=0;code<19683;code++){unsigned n=code;for(unsigned i=0;i<9;i++){m.element[i]=(int32_t)(n%3u)-1;n/=3u;}CHECK(pc_rotation_matrix3_transpose_q(&m,&out));for(unsigned r=0;r<3;r++)for(unsigned c=0;c<3;c++)CHECK(out.element[3*r+c]==m.element[3*c+r]);}return 0;}

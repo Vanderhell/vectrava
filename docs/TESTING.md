@@ -37,7 +37,9 @@ ctest --test-dir build-san --output-on-failure
 | MSVC 19.42 Debug and Release | PASS, 33/33 tests in each configuration |
 | AddressSanitizer | PASS, Clang 22.1.8 x64, 33/33 tests |
 | UndefinedBehaviorSanitizer | PASS, Clang 22.1.8 x64, 33/33 tests |
-| ESP32-S3 | HW NOT VERIFIED |
+| ESP32-S3 v0.2, 240 MHz, Arduino-ESP32 3.3.10, COM19 USB-Serial/JTAG | PASS: 100,000 seeded bearing cases (max 6 Q0.32 codes), 100,000 seeded vector rotations (max 1 Q15 code), quaternion identity invariants; full API suite not run on hardware |
+
+The ESP32-S3 hardware run compiled the production C sources with Arduino CLI 1.4.1 and ran a temporary deterministic firmware harness. The bearing oracle used `atan2`/`double`; the rotation oracle used `sin`/`cos`/`double` with the API's int16 saturation applied. This validates those sampled paths and quaternion identity behavior only; it is not a full 52-function target run or a performance benchmark.
 
 The previous checked-in `build-audit` cache refers to a different absolute
 workspace path and is not valid evidence for this checkout. The legacy suite

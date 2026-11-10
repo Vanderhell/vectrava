@@ -77,9 +77,9 @@ rounding, validity, aliasing, and failure-output contract.
   updates retain their independent regression sources and randomized checks.
 - GCC strict passed 36/36; MSVC Debug and Release passed 33/33 each; Clang-cl
   strict passed 33/33. Three `__int128` oracle tests are optional and excluded
-  on MSVC. ASan and UBSan each passed 33/33 tests under Clang 22. ESP32-S3 remains HW NOT VERIFIED.
+  on MSVC. ASan and UBSan each passed 33/33 tests under Clang 22. Representative ESP32-S3 tests passed on v0.2 at 240 MHz: 100,000 seeded bearings (maximum error 6 Q0.32 codes), 100,000 seeded 2D rotations (maximum error 1 Q15 code), and quaternion identity invariants. Full hardware API coverage remains unrun.
 
 `RISK` is not a demonstrated bug. Formal worst-case error proofs for the CORDIC
-approximations and hardware-target evidence remain open. Sanitizer runs passed.
+approximations and full hardware API coverage remain open. Representative hardware checks and sanitizer runs passed.
 No implementation algorithm was changed because no reproducible product
 defect was confirmed. See [TESTING.md](TESTING.md) for commands and full status.

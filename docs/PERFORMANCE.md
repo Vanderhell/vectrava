@@ -1,8 +1,6 @@
 ﻿# Performance
 
-No controlled MCU performance or footprint measurement is available for this
-checkout. Flash, static RAM, stack, cycle count, and ESP32-S3 status remain
-unmeasured; report `HW NOT VERIFIED`.
+A representative ESP32-S3 correctness run was completed (see [TESTING.md](TESTING.md)). No controlled MCU performance or isolated footprint measurement is available for this checkout; flash, static RAM, stack, and cycle count for the library itself remain unmeasured.
 
 Several primitives use bounded integer loops (for example, binary square-root
 search and fixed-iteration CORDIC), and other primitives use 64-bit division.

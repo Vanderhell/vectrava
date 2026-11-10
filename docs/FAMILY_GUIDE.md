@@ -17,4 +17,4 @@ and input limits fit the calling code.
 The public interface consists of 52 functions and two matrix type headers.
 Every callable function is referenced by at least one automated test source.
 The current coverage and verified toolchain status are tracked in
-[TESTING.md](TESTING.md). ESP32-S3 remains `HW NOT VERIFIED`.
+[TESTING.md](TESTING.md). Representative ESP32-S3 correctness checks passed; the full API suite has not been run on target.

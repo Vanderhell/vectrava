@@ -64,7 +64,7 @@ The CMake test option is VECTRAVA_BUILD_TESTS. The library has no mandatory thir
 
 **Audit verdict: READY FOR PUBLIC RELEASE.**
 
-GCC strict: 36/36; Clang-cl strict: 33/33; MSVC Debug and Release: 33/33 each; ASan and UBSan: 33/33 each under Clang 22. ESP32-S3 remains HW NOT VERIFIED. See [audit register](docs/AUDIT.md) and [test evidence](docs/TESTING.md).
+GCC strict: 36/36; Clang-cl strict: 33/33; MSVC Debug and Release: 33/33 each; ASan and UBSan: 33/33 each under Clang 22. Representative ESP32-S3 correctness tests passed; the full 52-function hardware suite was not run. See [audit register](docs/AUDIT.md) and [test evidence](docs/TESTING.md).
 
 Detailed overflow, rounding, invalid-input, memory-ownership and state rules are defined by the public headers and API reference. Do not infer them from the product name alone.
 

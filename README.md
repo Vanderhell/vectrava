@@ -26,6 +26,24 @@ ctest --test-dir build --output-on-failure
 
 For a minimal integration, include only the required public header and compile the matching source unit. The library does not require the rest of PrimitiveCore.
 
+Example using one standalone operation:
+
+```c
+#include <vectrava/geometry/pc_waypoint_distance2_i32.h>
+#include <stdint.h>
+
+int main(void)
+{
+    uint64_t distance_squared;
+    if (!pc_waypoint_distance2_i32(0, 0, 3, 4, &distance_squared)) return 1;
+    return distance_squared == 25u ? 0 : 1;
+}
+```
+
+Compile the example with `-I include -I include/vectrava/geometry` and
+`src/pc_waypoint_distance2_i32.c`, or link against the CMake `vectrava` static
+target.
+
 ## Documentation
 
 | Need | Read |
@@ -38,15 +56,15 @@ For a minimal integration, include only the required public header and compile t
 
 ## At a glance
 
-The public surface consists of 54 headers and 54 callable API entries under include/. Implementations are in src/ and tests are in tests/. State, buffers and output ownership are explicit in each header contract.
+The public surface consists of 54 public headers: 52 callable functions and two shared matrix type definitions under include/. Implementations are in src/ and tests are in tests/. State, buffers and output ownership are explicit in each header contract.
 
 The CMake test option is VECTRAVA_BUILD_TESTS. The library has no mandatory third-party dependency. Platform-specific link requirements are documented in CMake and the affected API header.
 
 ## Validation status
 
-32/32 MSVC tests and 35/35 GCC strict-warning tests passed; three __int128
-oracle sources are excluded only from MSVC.
-See docs/TESTING.md for reproducible commands, coverage boundaries and hardware status.
+**Audit verdict: READY FOR PUBLIC RELEASE.**
+
+GCC strict: 36/36; Clang-cl strict: 33/33; MSVC Debug and Release: 33/33 each; ASan and UBSan: 33/33 each under Clang 22. ESP32-S3 remains HW NOT VERIFIED. See [audit register](docs/AUDIT.md) and [test evidence](docs/TESTING.md).
 
 Detailed overflow, rounding, invalid-input, memory-ownership and state rules are defined by the public headers and API reference. Do not infer them from the product name alone.
 

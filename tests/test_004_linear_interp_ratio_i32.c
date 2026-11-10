@@ -67,9 +67,9 @@ int main(void)
             0u, 1u, UINT32_C(0x7fffffff), UINT32_C(0x80000000), UINT32_MAX - 1u, UINT32_MAX
         };
         for (uint32_t i = 0u; i < sizeof(wide_numerators) / sizeof(wide_numerators[0]); ++i) {
-            uint32_t n = wide_numerators[i];
-            assert(pc_linear_interp_ratio_i32(INT32_MIN, INT32_MAX, n, UINT32_MAX, &got));
-            assert(got == oracle(INT32_MIN, INT32_MAX, n, UINT32_MAX));
+            uint32_t wide_n = wide_numerators[i];
+            assert(pc_linear_interp_ratio_i32(INT32_MIN, INT32_MAX, wide_n, UINT32_MAX, &got));
+            assert(got == oracle(INT32_MIN, INT32_MAX, wide_n, UINT32_MAX));
         }
         assert(pc_linear_interp_ratio_i32(INT32_MIN, INT32_MAX, 0u, 1u, &got) && got == INT32_MIN);
         assert(pc_linear_interp_ratio_i32(INT32_MIN, INT32_MAX, 1u, 1u, &got) && got == INT32_MAX);

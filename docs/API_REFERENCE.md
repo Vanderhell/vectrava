@@ -1,6 +1,6 @@
 ﻿# Vectrava API reference
 
-This reference explains every public header in the Vectrava product. It is generated from the current headers and test sources; the header remains authoritative when a detail conflicts.
+This reference lists all 54 public headers (52 callable APIs and two matrix type headers). Contracts come from the headers; test-source mapping is current for the 36 test programs, including the gap coverage in test_036_api_gaps.c.
 
 ## Reading the entries
 Each entry states the public symbol, implementation unit, contract, edge/failure behavior and a call extracted from the validating test source. The examples are evidence-oriented; adapt buffer ownership and numeric units to the application.
@@ -13,12 +13,12 @@ Each entry states the public symbol, implementation unit, contract, edge/failure
 
 **Purpose and contract:** Apply a row-major 2x2 Q matrix and Q translation. Each dot product is rounded nearest-even once. False on invalid pointers/fractional_bits or result overflow; failure preserves output. Output may alias point/translation.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -47,12 +47,12 @@ pc_bbox_of_points2_i32(NULL,1,&b)&&b.min_x==11);
 
 **Purpose and contract:** CORDIC estimate of bearing from an int32 origin to target as unsigned Q0.32 turns CCW from +X. Equal points return zero. Coordinates need not share a specific Q scale. Differential tests observed <= 16 phase-code error; this empirical limit is not a formal global bound.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -64,12 +64,12 @@ No test-derived call was found.;
 
 **Purpose and contract:** Piecewise-linear map, clamp beyond endpoints, nearest/ties-away rounding. Count is 2..255; input knots must be strictly increasing.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -98,12 +98,12 @@ pc_circle_aabb_overlap_i32(cx,cy,r,x0,y0,x1,y1)==oracle(cx,cy,r,x0,y0,x1,y1\);
 
 **Purpose and contract:** Constant-deceleration stopping distance: ceil(|v|^2/(2*a)). Velocity is signed Q16.16 units/s, positive braking deceleration is Q16.16 units/s^2, result is unsigned Q16.16 distance. Zero speed returns 0; nonzero speed with zero deceleration fails atomically.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -132,12 +132,12 @@ pc_hash_probe_linear_u32(0u, 0u, 0u, &result\);
 
 **Purpose and contract:** Apply a row-major 3x3 Q matrix to a homogeneous 3-vector. Each row dot product is rounded nearest-even once. Returns homogeneous output; it does not divide by W. False preserves output. Output may alias matrix/vector.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -149,12 +149,12 @@ No test-derived call was found.;
 
 **Purpose and contract:** Store a+b exactly. False for null output or signed overflow; failure writes nothing to result.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -370,12 +370,12 @@ pc_perpendicular_vectors2_i32(v[i][0],v[i][1],v[j][0],v[j][1])==ref(v[i][0],v[i]
 
 **Purpose and contract:** Find clamped interval i for strictly increasing points[].input, count 2..255. Segment i spans knot i to i+1; exact interior knots select the segment to their right, and endpoints/outside clamp to [0,count-2].
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -387,12 +387,12 @@ No test-derived call was found.;
 
 **Purpose and contract:** Nearest-even Euclidean norm of three same-scale signed Q raw values. False on null output or int32 overflow; failure preserves *out.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -625,12 +625,12 @@ pc_range_distance_i32(5, 0, 10, &d) && d == 0);
 
 **Purpose and contract:** Return forward distance from one valid ring index to another.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -676,12 +676,12 @@ pc_rotation_matrix3_transpose_q(&m,&out\);
 
 **Purpose and contract:** Return the clamped projection parameter of point P on segment A->B as unsigned Q16.16 in [0,65536]. Coordinates are int16 grid units. False on A==B or null output; failure preserves *out.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -778,12 +778,12 @@ pc_sphere_aabb_overlap_i32(x,y,z,r,x0,y0,z0,x1,y1,z1)==oracle(c,r,lo,hi\);
 
 **Purpose and contract:** Convert monostatic ultrasonic round-trip time to one-way distance. Time is in microseconds; sound speed is in millimetres/second; output is micrometres rounded to nearest, ties to even. Zero speed or null output fails without modifying the output.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -795,12 +795,12 @@ No test-derived call was found.;
 
 **Purpose and contract:** Convert one-way distance to monostatic ultrasonic round-trip time. Distance is in micrometres; sound speed is in millimetres/second; result is microseconds rounded to nearest, ties to even. Zero speed or null output fails without modifying the output.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -812,12 +812,12 @@ No test-derived call was found.;
 
 **Purpose and contract:** Select interval i in strictly increasing time_knots[0..count-1]. Exact interior knots select the interval to their right; endpoints clamp to the first/last segment. count must be at least 2.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -829,12 +829,12 @@ No test-derived call was found.;
 
 **Purpose and contract:** Add a delta to an int32 coordinate pair. False on null/aliased outputs or if either result overflows; failure preserves both output values.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
 
@@ -914,12 +914,11 @@ pc_vector_rotate2_q(in,phase,out\);
 
 **Purpose and contract:** Exact squared Euclidean distance between int32 coordinates. False on null output or uint64 result overflow; failure preserves *out.
 
-**Validation source:** No enabled test source was found by symbol search.
+**Validation source:** tests/test_036_api_gaps.c
 
-**Test-derived call:**
-```c
-No test-derived call was found.;
-```
+**Test-derived call:** See `tests/test_036_api_gaps.c`.
+
+
+
 
 **Integration notes:** use the exact fixed-width types and units shown in the declaration; check the boolean/status return before consuming an output pointer; do not assume overlap, rounding or overflow behavior beyond the contract above.
-

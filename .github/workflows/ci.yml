@@ -3,10 +3,33 @@ on:
   push:
   pull_request:
 jobs:
-  host:
+  unix:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON -DCMAKE_C_FLAGS="-Wall -Wextra -Werror"
+      - name: Configure strict C99 build
+        run: cmake -S . -B build -DCMAKE_C_COMPILER=${{ matrix.compiler }} -DVECTRAVA_STRICT_WARNINGS=ON
       - run: cmake --build build --parallel
       - run: ctest --test-dir build --output-on-failure
+  sanitizers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build -DCMAKE_C_COMPILER=gcc -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+      - run: cmake --build build --parallel
+      - run: ctest --test-dir build --output-on-failure
+  msvc:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build -A x64 -DVECTRAVA_STRICT_WARNINGS=ON
+      - run: cmake --build build --config ${{ matrix.configuration }} --parallel
+      - run: ctest --test-dir build -C ${{ matrix.configuration }} --output-on-failure

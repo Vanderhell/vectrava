@@ -26,23 +26,7 @@ ctest --test-dir build --output-on-failure
 
 For a minimal integration, include only the required public header and compile the matching source unit.
 
-Example using one standalone operation:
-
-```c
-#include <vectrava/geometry/pc_waypoint_distance2_i32.h>
-#include <stdint.h>
-
-int main(void)
-{
-    uint64_t distance_squared;
-    if (!pc_waypoint_distance2_i32(0, 0, 3, 4, &distance_squared)) return 1;
-    return distance_squared == 25u ? 0 : 1;
-}
-```
-
-Compile the example with `-I include -I include/vectrava/geometry` and
-`src/pc_waypoint_distance2_i32.c`, or link against the CMake `vectrava` static
-target.
+For selective integration, include the header for the operation you need and compile its corresponding source unit, or link the static CMake target.
 
 ## Documentation
 
@@ -56,7 +40,7 @@ target.
 
 ## At a glance
 
-The public surface consists of 54 public headers: 52 callable functions and two shared matrix type definitions under include/. Implementations are in src/ and tests are in tests/. State, buffers and output ownership are explicit in each header contract.
+The public surface consists of 54 headers: 52 callable functions and two shared matrix type definitions under `include/`. Implementations are in `src/` and tests are in `tests/`.
 
 The CMake test option is VECTRAVA_BUILD_TESTS. The library has no mandatory third-party dependency. Platform-specific link requirements are documented in CMake and the affected API header.
 

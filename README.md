@@ -1,56 +1,68 @@
 # Vectrava
+
 ![CI](https://github.com/Vanderhell/vectrava/actions/workflows/ci.yml/badge.svg) ![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg) ![Language](https://img.shields.io/badge/language-C99-informational.svg)
 
 ![Vectrava banner](docs/banner.svg)
 
-Vectors, ranges, transforms, quaternions, bounding volumes and spatial calculations.
+Vectrava is a C99 library for fixed-point geometry and bounded spatial calculations. Its 52 public operations cover vectors, ranges, transforms, quaternions, bounding volumes and coordinate calculations. Two additional public headers define reusable matrix types.
 
-## Why it exists
+## Engineering properties
 
-Embedded robotics and motion code needs fixed-point geometry with explicit bounds and no heap.
-
-## What is included
-
-- Portable C99-oriented implementation.
-- Deterministic integer or fixed-point behavior documented at function level.
-- No mandatory heap, threads or operating-system services.
-- Separate translation units for selective linking.
+- Deterministic fixed-point/integer implementations with caller-owned inputs, outputs and state.
+- No mandatory heap allocation, operating-system service, thread or third-party library.
+- Separate implementation units for selective linking.
+- Strict compiler warnings and test/example targets are opt-in per library-specific CMake options.
 
 ## Quick start
 
-```sh
-cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON
-cmake --build build --parallel
-ctest --test-dir build --output-on-failure
+```c
+#include <vectrava/geometry/checked_add_i64.h>
+#include <stdint.h>
+
+int main(void)
+{
+    int64_t sum = 0;
+    if (!vectrava_checked_add_i64(20, 22, &sum)) {
+        return 1;
+    }
+    return sum == 42 ? 0 : 1;
+}
 ```
 
-For a minimal integration, include only the required public header and compile the matching source unit.
+## Build and test
 
-For selective integration, include the header for the operation you need and compile its corresponding source unit, or link the static CMake target.
+```sh
+cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure -C Release
+```
+
+Tests and examples are disabled by default when consumed as a dependency. To build the example, enable `VECTRAVA_BUILD_EXAMPLES`.
+
+## Integrate
+
+With an installed CMake package:
+
+```cmake
+find_package(Vectrava CONFIG REQUIRED)
+target_link_libraries(your_firmware PRIVATE Vectrava::Vectrava)
+```
+
+`add_subdirectory()` is also supported. For direct source integration, include `<vectrava/geometry/<operation>.h>` and compile the matching `src/vectrava_<operation>.c` unit plus any private dependency listed in the API reference.
 
 ## Documentation
 
 | Need | Read |
 |---|---|
-| Choose a primitive | [Family guide](docs/FAMILY_GUIDE.md) |
-| Check every function and contract | [API reference](docs/API_REFERENCE.md) |
-| Reproduce tests and see validation limits | [Testing report](docs/TESTING.md) |
-| Review design and dependencies | [Architecture](docs/ARCHITECTURE.md) |
-| See measured or pending performance data | [Performance](docs/PERFORMANCE.md) |
-
-## At a glance
-
-The public surface consists of 54 headers: 52 callable functions and two shared matrix type definitions under `include/`. Implementations are in `src/` and tests are in `tests/`.
-
-The CMake test option is VECTRAVA_BUILD_TESTS. The library has no mandatory third-party dependency. Platform-specific link requirements are documented in CMake and the affected API header.
+| Select an operation by task | [Family guide](docs/FAMILY_GUIDE.md) |
+| Review each API contract | [API reference](docs/API_REFERENCE.md) |
+| Reproduce host tests and see limits | [Testing](docs/TESTING.md) |
+| Understand design and dependencies | [Architecture](docs/ARCHITECTURE.md) |
+| Review embedded evidence | [Performance](docs/PERFORMANCE.md) |
 
 ## Validation status
 
-**Audit verdict: READY FOR PUBLIC RELEASE.**
-
-GCC strict: 36/36; Clang-cl strict: 33/33; MSVC Debug and Release: 33/33 each; ASan and UBSan: 33/33 each under Clang 22. Representative ESP32-S3 correctness tests passed; the full 52-function hardware suite was not run. See [audit register](docs/AUDIT.md) and [test evidence](docs/TESTING.md).
-
-Detailed overflow, rounding, invalid-input, memory-ownership and state rules are defined by the public headers and API reference. Do not infer them from the product name alone.
+The audit suite directly calls all 52 public functions. The local host matrix and current ESP32-S3 status are recorded in [Testing](docs/TESTING.md). Earlier ESP32-S3 checks cover selected numeric paths only; they are historical evidence and do not establish complete API validation on the migrated revision. Current embedded cycles and isolated footprint are not claimed without a new measurement.
 
 ## License
 

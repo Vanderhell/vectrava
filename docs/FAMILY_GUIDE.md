@@ -7,8 +7,9 @@ and input limits fit the calling code.
 
 ## Integration
 
-- Include `<vectrava/geometry/pc_name.h>` and compile its matching source unit,
-  or link the `vectrava` CMake static library.
+- Include `<vectrava/geometry/operation_name.h>` and compile its matching
+  `src/vectrava_operation_name.c` source unit, or link the
+  `Vectrava::Vectrava` CMake target.
 - Check every boolean return before using output values.
 - Respect each header's aliasing and failure-preservation contract.
 - Fixed-point formats and units belong to each API; similarly named formats
@@ -17,4 +18,5 @@ and input limits fit the calling code.
 The public interface consists of 52 functions and two matrix type headers.
 Every callable function is referenced by at least one automated test source.
 The current coverage and verified toolchain status are tracked in
-[TESTING.md](TESTING.md). Representative ESP32-S3 correctness checks passed; the full API suite has not been run on target.
+[TESTING.md](TESTING.md). Historical ESP32-S3 checks cover selected numerical
+paths only; current-revision hardware verification has not been performed.

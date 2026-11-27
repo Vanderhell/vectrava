@@ -1,60 +1,85 @@
-﻿# Testing and audit status
+# Testing and validation
 
-The public surface has 54 headers: 52 callable functions and two matrix type
-headers. `tests/test_001` through `test_035` are retained; `test_036_api_gaps`
-adds deterministic checks for the 15 functions that previously had no test
-source, including 100,000 seeded differential bearing and three-dimensional
-norm cases against independent long-double references. Existing tests retain
-optional `__int128` oracles where supported.
+## Coverage
 
-## Reproduction
+The public surface contains 52 callable C functions and two public matrix-type
+headers. Each function has a direct test invocation in `tests/`; the enabled
+suite also compiles every public header independently as C and all public
+headers together as C++. Test executables keep `assert` enabled in Release so
+existing assertions are evaluated with `NDEBUG` build configurations.
 
-Strict GCC or Clang C99 build:
+The suite consists of 36 behavior test programs, 54 standalone C header smoke
+tests and one C++ aggregate-header/link smoke test: 91 CTest entries total.
+The 36 behavior programs retain the original cases and add direct coverage for
+the previously uncovered operations. Differential references are separate
+from production code. Some oracle cases use `long double`; the available
+precision is implementation-dependent and does not constitute a formal error
+bound.
+
+## Reproduce
 
 ```sh
-cmake -S . -B build -DVECTRAVA_STRICT_WARNINGS=ON
+cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --parallel
-ctest --test-dir build --output-on-failure
+ctest --test-dir build --output-on-failure -C Debug
+
+cmake -S . -B build-release -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release --parallel
+ctest --test-dir build-release --output-on-failure -C Release
 ```
 
-The strict option selects `/W4 /WX` on MSVC and
-`-Wall -Wextra -Wpedantic -Werror` on GCC/Clang. Sanitizers on GCC/Clang:
+GCC or Clang sanitizer builds can be run separately:
 
 ```sh
-cmake -S . -B build-san -DVECTRAVA_STRICT_WARNINGS=ON \
-  -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
-cmake --build build-san --parallel
-ctest --test-dir build-san --output-on-failure
+cmake -S . -B build-asan -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-fsanitize=address -fno-omit-frame-pointer" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address"
+cmake --build build-asan --parallel
+ctest --test-dir build-asan --output-on-failure
+
+cmake -S . -B build-ubsan -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined"
+cmake --build build-ubsan --parallel
+ctest --test-dir build-ubsan --output-on-failure
 ```
 
-## Local evidence (2026-11-10)
+## Executed host results
 
-| Configuration | Result |
+Results for the current namespaced source tree on 2026-11-27:
+
+| Compiler/configuration | Result |
 |---|---|
-| GCC 16.1, MinGW, strict C99 warnings | PASS, build succeeds; 36/36 tests |
-| Clang-cl 19.1.5, strict warnings | PASS, 33/33 tests (three optional `__int128` oracles excluded) |
-| Clang GNU driver | NOT RUN: Windows MSVC runtime/sysroot unavailable |
-| MSVC 19.42 Debug and Release | PASS, 33/33 tests in each configuration |
-| AddressSanitizer | PASS, Clang 22.1.8 x64, 33/33 tests |
-| UndefinedBehaviorSanitizer | PASS, Clang 22.1.8 x64, 33/33 tests |
-| ESP32-S3 v0.2, 240 MHz, Arduino-ESP32 3.3.10, COM19 USB-Serial/JTAG | PASS: 100,000 seeded bearing cases (max 6 Q0.32 codes), 100,000 seeded vector rotations (max 1 Q15 code), quaternion identity invariants; full API suite not run on hardware |
+| GCC 16.1 MinGW UCRT, Debug, strict warnings | PASS, 91/91 |
+| GCC 16.1 MinGW UCRT, Release, strict warnings | PASS, 91/91; optional minimal example built and ran |
+| MSVC 19.42.34444, Debug, strict warnings | PASS, 91/91 |
+| MSVC 19.42.34444, Release, strict warnings | PASS, 91/91 |
+| ClangCL 19.1.5, Debug, strict warnings | PASS, 91/91 |
+| ClangCL 19.1.5, Release, strict warnings | PASS, 91/91 |
+| Clang GNU driver on Linux | NOT RUN locally |
+| ASan | NOT RUN locally; remote CI result pending for this revision |
+| UBSan | NOT RUN locally; remote CI result pending for this revision |
 
-The ESP32-S3 hardware run compiled the production C sources with Arduino CLI 1.4.1 and ran a temporary deterministic firmware harness. The bearing oracle used `atan2`/`double`; the rotation oracle used `sin`/`cos`/`double` with the API's int16 saturation applied. This validates those sampled paths and quaternion identity behavior only; it is not a full 52-function target run or a performance benchmark.
+The ClangCL oracle configuration uses an independent portable exact reference
+where the compiler cannot link GCC's `__int128` runtime helpers. This is a
+test portability adjustment; production algorithms and expected semantics
+were not changed. Linux Clang and GCC sanitizer configurations are enabled in
+GitHub Actions; their result must be checked on the commit that contains these
+changes.
 
-The previous checked-in `build-audit` cache refers to a different absolute
-workspace path and is not valid evidence for this checkout. The legacy suite
-contains duplicate tests 009/010 and 011/012; they remain unchanged.
+## Numerical evidence and limitations
 
-ASan and UBSan were run separately because this Windows Clang linker reports a runtime-library conflict when both sanitizer runtimes are linked together. Both instrumented runs passed all tests available in the MSVC-compatible configuration (three optional `__int128` oracle tests excluded); GCC strict ran the full 36-test set.
+The seeded tests measured maximum errors of 6 Q0.32 codes for bearing over
+100,000 full-range coordinate pairs, 1 Q15 component code for 2D vector
+rotation over 500,000 seeded cases, and 17 Q1.30 component codes for
+axis-angle quaternion conversion over 100,000 seeded phases. The 3D fixed-point
+hypotenuse was compared against an independent square-root reference for
+100,000 seeded triples. These are empirical samples, not proven global error
+bounds. Individual test inputs and thresholds are in the test sources.
 
-The CORDIC checks measured maximum errors of 1 Q15 component code for
-`pc_vector_rotate2_q` over 500,000 seeded vector/angle cases, 6 Q0.32 phase
-codes for `pc_bearing2_q` over 100,000 seeded full-range origin/target pairs,
-and 17 Q1.30 component codes for `pc_quat_from_axis_angle_q` over 100,000
-seeded phases. The respective test thresholds are 2, 24, and 20 codes. These
-are sampled empirical results, not formal worst-case proofs. `pc_q_hypot3` is
-checked against nearest-even long-double square roots for 100,000 seeded
-triples. No confirmed production defect was found; no implementation algorithm
-was changed. A test-oracle undefined conversion in an early negative-angle
-reference was corrected by normalizing the phase before converting it to an
-unsigned value; production code was unaffected.
+## Hardware
+
+Historical evidence: an earlier source revision was run on an ESP32-S3 at
+240 MHz with Arduino-ESP32 3.3.10. It covered selected bearing, vector-rotation
+and quaternion identity checks only. It did not exercise the complete public
+surface and is not evidence for this migrated revision.
+
+Current revision: **HW NOT VERIFIED**. Current API-wide target testing, cycle
+measurements, isolated flash/static-RAM contribution and stack measurements
+have not been performed. See [PERFORMANCE.md](PERFORMANCE.md).

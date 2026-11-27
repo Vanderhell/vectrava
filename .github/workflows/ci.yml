@@ -3,23 +3,43 @@ on:
   push:
   pull_request:
 jobs:
-  unix:
+  host:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        compiler: [gcc, clang]
-    runs-on: ubuntu-latest
+        include:
+          - c_compiler: gcc
+            cxx_compiler: g++
+            build_type: Debug
+          - c_compiler: gcc
+            cxx_compiler: g++
+            build_type: Release
+          - c_compiler: clang
+            cxx_compiler: clang++
+            build_type: Debug
+          - c_compiler: clang
+            cxx_compiler: clang++
+            build_type: Release
+    env:
+      CC: ${{ matrix.c_compiler }}
+      CXX: ${{ matrix.cxx_compiler }}
     steps:
       - uses: actions/checkout@v4
-      - name: Configure strict C99 build
-        run: cmake -S . -B build -DCMAKE_C_COMPILER=${{ matrix.compiler }} -DVECTRAVA_STRICT_WARNINGS=ON
+      - name: Configure strict C99
+        run: cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
       - run: cmake --build build --parallel
-      - run: ctest --test-dir build --output-on-failure
+      - run: ctest --test-dir build --output-on-failure -C ${{ matrix.build_type }}
   sanitizers:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address, undefined]
     steps:
       - uses: actions/checkout@v4
-      - run: cmake -S . -B build -DCMAKE_C_COMPILER=gcc -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+      - name: Configure GCC with ${{ matrix.sanitizer }} sanitizer
+        run: cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=${{ matrix.sanitizer }}"
       - run: cmake --build build --parallel
       - run: ctest --test-dir build --output-on-failure
   msvc:
@@ -27,9 +47,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Debug, Release]
+        build_type: [Debug, Release]
     steps:
       - uses: actions/checkout@v4
-      - run: cmake -S . -B build -A x64 -DVECTRAVA_STRICT_WARNINGS=ON
-      - run: cmake --build build --config ${{ matrix.configuration }} --parallel
-      - run: ctest --test-dir build -C ${{ matrix.configuration }} --output-on-failure
+      - name: Configure strict C99
+        run: cmake -S . -B build -DVECTRAVA_BUILD_TESTS=ON -DVECTRAVA_STRICT_WARNINGS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - run: cmake --build build --config ${{ matrix.build_type }} --parallel
+      - run: ctest --test-dir build --output-on-failure -C ${{ matrix.build_type }}
